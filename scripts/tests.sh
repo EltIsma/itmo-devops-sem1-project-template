@@ -111,7 +111,6 @@ check_api_advanced() {
     # Проверка POST с ZIP
     echo "Тестирование POST /api/v0/prices?type=zip"
     response=$(curl -s -F "file=@$TEST_ZIP" "${API_HOST}/api/v0/prices?type=zip")
-    echo "Response: $response"
     if [[ $response == *"total_items"* ]]; then
         echo -e "${GREEN}✓ POST запрос с ZIP успешен${NC}"
     else
@@ -122,7 +121,6 @@ check_api_advanced() {
     # Проверка POST с TAR
     echo "Тестирование POST /api/v0/prices?type=tar"
     response=$(curl -s -F "file=@$TEST_TAR" "${API_HOST}/api/v0/prices?type=tar")
-    echo "Response: $response"
     if [[ $response == *"total_items"* ]]; then
         echo -e "${GREEN}✓ POST запрос с TAR успешен${NC}"
     else
@@ -141,7 +139,6 @@ check_api_complex() {
     # Проверка POST с проверкой обработки некорректных данных
     echo "Тестирование POST /api/v0/prices?type=zip с некорректными данными"
     response=$(curl -s -F "file=@$TEST_ZIP" "${API_HOST}/api/v0/prices?type=zip")
-    echo "Response: $response"
     
     # Проверяем все обязательные поля в ответе
     local required_fields=("total_count" "duplicates_count" "total_items" "total_categories" "total_price")

@@ -109,16 +109,16 @@ func handlePostPrices(w http.ResponseWriter, r *http.Request) {
 	var csvData []byte
 	found := false
 	for _, f := range zipReader.File {
-		if f.Name == "data.csv" {
+		if strings.HasSuffix(f.Name, ".csv") && !strings.Contains(f.Name, "/") {
 			rc, err := f.Open()
 			if err != nil {
-				http.Error(w, "Failed to open data.csv: "+err.Error(), http.StatusInternalServerError)
+				http.Error(w, "Failed to open CSV file: "+err.Error(), http.StatusInternalServerError)
 				return
 			}
 			csvData, err = io.ReadAll(rc)
 			rc.Close()
 			if err != nil {
-				http.Error(w, "Failed to read data.csv: "+err.Error(), http.StatusInternalServerError)
+				http.Error(w, "Failed to read CSV file: "+err.Error(), http.StatusInternalServerError)
 				return
 			}
 			found = true
@@ -127,7 +127,7 @@ func handlePostPrices(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if !found {
-		http.Error(w, "data.csv not found in zip archive", http.StatusBadRequest)
+		http.Error(w, "CSV file not found in zip archive", http.StatusBadRequest)
 		return
 	}
 
