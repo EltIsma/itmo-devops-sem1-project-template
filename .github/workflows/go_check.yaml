@@ -47,7 +47,14 @@ jobs:
       run: ./scripts/prepare.sh
 
     - name: Run application
-      run: ./scripts/run.sh
+      run: |
+        ./scripts/run.sh &
+        sleep 5
+        until curl -s http://localhost:8080/api/v0/prices > /dev/null 2>&1; do
+          echo "Waiting for server to start..."
+          sleep 1
+        done
+        echo "Server is ready!"
       env:
         POSTGRES_HOST: localhost
         POSTGRES_PORT: 5432
