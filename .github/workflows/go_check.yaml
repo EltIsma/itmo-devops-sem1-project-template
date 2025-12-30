@@ -94,7 +94,6 @@ jobs:
         POSTGRES_DB: project-sem-1
         POSTGRES_USER: validator
         POSTGRES_PASSWORD: val1dat0r
-
     - name: Check test results
       if: always()
       run: |
